@@ -1,8 +1,8 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 using WorldCitiesApi.Data;
 using WorldCitiesModel.Models;
 using Path = System.IO.Path;
@@ -11,30 +11,27 @@ namespace WorldCitiesApi.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-[Authorize(Roles = "Administrator")]
 public class SeedController : ControllerBase
 {
     private readonly WorldCitiesContext _context;
     private readonly string _pathName;
-    private readonly IConfiguration _configuration;
 
-    public SeedController(WorldCitiesContext context, IHostEnvironment environment, 
-        IConfiguration configuration)
+    public SeedController(WorldCitiesContext context, IHostEnvironment environment)
     {
         _context = context;
-        _configuration = configuration;
         _pathName = Path.Combine(environment.ContentRootPath, "Data/worldcities.csv");
     }
 
-    [HttpGet]
+    [HttpGet("Cities")]
     public async Task<IActionResult> ImportCities()
     {
         Dictionary<string, Country> Countries = await _context.Countries.AsNoTracking()
             .ToDictionaryAsync(c => c.Name);
 
-        CsvConfiguration config = new()
+        CsvConfiguration config = new(CultureInfo.InvariantCulture)
         {
-            HasHeaderRecord = true
+            HasHeaderRecord = true,
+            HeaderValidated = null
         };
         int cityCount = 0;
         using (StreamReader reader = new(_pathName))
@@ -45,14 +42,22 @@ public class SeedController : ControllerBase
             {
                 if (!Countries.ContainsKey(record.country))
                 {
+                    Console.WriteLine($"Not found country for {record.city}");
                     return NotFound(record);
                 }
 
+                if (!record.population.HasValue || string.IsNullOrEmpty(record.city_ascii))
+                {
+                    Console.WriteLine($"Skipping {record.city_ascii}");
+                    continue;
+                }
                 City city = new()
                 {
-                    Name = record.city,
+                    Name = record.city_ascii,
+                    NameAscii = record.city_ascii,
                     Lattitude = record.lat,
                     Longitude = record.lng,
+                    Population = (int) record.population.Value,
                     CountryId = Countries[record.country].Id
                 };
                 _context.Cities.Add(city);
@@ -72,9 +77,10 @@ public class SeedController : ControllerBase
         Dictionary<string, Country> countriesByName = _context.Countries
             .AsNoTracking().ToDictionary(x => x.Name, StringComparer.OrdinalIgnoreCase);
 
-        CsvConfiguration config = new()
+        CsvConfiguration config = new(CultureInfo.InvariantCulture)
         {
-            HasHeaderRecord = true
+            HasHeaderRecord = true,
+            HeaderValidated = null
         };
         using (StreamReader reader = new(_pathName))
         using (CsvReader csv = new(reader, config))
