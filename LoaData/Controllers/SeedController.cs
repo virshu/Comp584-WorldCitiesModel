@@ -48,12 +48,12 @@ public class SeedController : ControllerBase
 
                 if (!record.population.HasValue || string.IsNullOrEmpty(record.city_ascii))
                 {
-                    Console.WriteLine($"Skipping {record.city_ascii}");
+                    Console.WriteLine($"Skipping {record.city}");
                     continue;
                 }
                 City city = new()
                 {
-                    Name = record.city_ascii,
+                    Name = record.city,
                     NameAscii = record.city_ascii,
                     Lattitude = record.lat,
                     Longitude = record.lng,
