@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32901.215
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldCitiesModel", "WorldCitiesModel\WorldCitiesModel.csproj", "{676406A4-1A7A-4AF3-A753-553905606CE2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoaData", "LoaData\LoaData.csproj", "{6BE55FB3-993C-43BB-9190-2667464ED3B9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{676406A4-1A7A-4AF3-A753-553905606CE2} = {676406A4-1A7A-4AF3-A753-553905606CE2}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{676406A4-1A7A-4AF3-A753-553905606CE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{676406A4-1A7A-4AF3-A753-553905606CE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{676406A4-1A7A-4AF3-A753-553905606CE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{676406A4-1A7A-4AF3-A753-553905606CE2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6BE55FB3-993C-43BB-9190-2667464ED3B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BE55FB3-993C-43BB-9190-2667464ED3B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BE55FB3-993C-43BB-9190-2667464ED3B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BE55FB3-993C-43BB-9190-2667464ED3B9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CD766ECA-5A24-4EDC-8A28-19D70A6900DC}
+	EndGlobalSection
+EndGlobal
