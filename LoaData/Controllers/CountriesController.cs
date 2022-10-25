@@ -51,7 +51,7 @@ namespace WorldCitiesApi.Controllers
             return Ok(countryDTO);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("Population/{id}")]
         public async Task<ActionResult> GetCountryWithPopulation(int id)
         {
             CountryPopulation? countryDTO = await _context.Countries
