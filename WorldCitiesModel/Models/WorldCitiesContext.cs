@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Configuration;
 
 namespace WorldCitiesModel.Models
 {
-    public partial class WorldCitiesContext : DbContext
+    public partial class WorldCitiesContext : IdentityDbContext<WorldCitiesUser>
     {
         public WorldCitiesContext()
         {
@@ -35,6 +36,7 @@ namespace WorldCitiesModel.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<City>(entity =>
             {
                 entity.HasOne(d => d.Country)

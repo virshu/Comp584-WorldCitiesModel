@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WorldCitiesApi.Dtos;
@@ -22,6 +18,7 @@ namespace WorldCitiesApi.Controllers
         }
 
         // GET: api/Countries
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Country>>> GetCountries()
         {
@@ -58,6 +55,7 @@ namespace WorldCitiesApi.Controllers
                 .Where(c => c.Id == id)
                 .Select(c => new CountryPopulation
                 {
+                    Id = c.Id,
                     Name = c.Name,
                     Population = c.Cities.Select(t => t.Population).Sum()
                 }).SingleOrDefaultAsync();
