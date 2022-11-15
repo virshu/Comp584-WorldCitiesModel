@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace WorldCitiesModel.Models
+namespace WorldCitiesModel.Models;
+
+public class WorldCitiesUser : IdentityUser
 {
-    public class WorldCitiesUser : IdentityUser
-    {
-    }
 }

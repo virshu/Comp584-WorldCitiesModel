@@ -1,10 +1,8 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace WorldCitiesModel.Migrations
-{
+namespace WorldCitiesModel.Migrations {
     public partial class Identity : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

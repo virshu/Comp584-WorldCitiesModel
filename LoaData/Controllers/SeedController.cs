@@ -143,7 +143,7 @@ public class SeedController : ControllerBase
                 Email = email,
                 SecurityStamp = Guid.NewGuid().ToString()
             };
-            await _userManager.CreateAsync(userAdmin, _configuration["DefaultPasswords:Administrator"]);
+            await _userManager.CreateAsync(userAdmin, _configuration["DefaultPasswords:Administrator"]!);
             await _userManager.AddToRolesAsync(userAdmin, new[] { roleUser, roleAdmin });
             userAdmin.EmailConfirmed = true;
             userAdmin.LockoutEnabled = false;
@@ -160,7 +160,7 @@ public class SeedController : ControllerBase
                 Email = registered.email,
                 SecurityStamp = Guid.NewGuid().ToString()
             };
-            await _userManager.CreateAsync(user, _configuration["DefaultPasswords:RegisteredUser"]);
+            await _userManager.CreateAsync(user, _configuration["DefaultPasswords:RegisteredUser"]!);
             await _userManager.AddToRoleAsync(user, roleUser);
             user.EmailConfirmed = true;
             user.LockoutEnabled = false;
