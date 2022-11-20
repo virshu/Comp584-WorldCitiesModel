@@ -54,8 +54,7 @@ public class CountriesController : ControllerBase
                 Name = c.Name,
                 Population = c.Cities.Select(t => t.Population).Sum()
             }).SingleOrDefaultAsync();
-
-
+        
         return countryDTO == null ? NotFound() : Ok(countryDTO);
     }
 
@@ -81,12 +80,9 @@ public class CountriesController : ControllerBase
             {
                 return NotFound();
             }
-            else
-            {
-                throw;
-            }
-        }
 
+            throw;
+        }
         return NoContent();
     }
 
@@ -102,10 +98,10 @@ public class CountriesController : ControllerBase
     }
 
     // DELETE: api/Countries/5
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteCountry(int id)
     {
-        var country = await _context.Countries.FindAsync(id);
+        Country? country = await _context.Countries.FindAsync(id);
         if (country == null)
         {
             return NotFound();
@@ -117,8 +113,5 @@ public class CountriesController : ControllerBase
         return NoContent();
     }
 
-    private bool CountryExists(int id)
-    {
-        return _context.Countries.Any(e => e.Id == id);
-    }
+    private bool CountryExists(int id) => _context.Countries.Any(e => e.Id == id);
 }

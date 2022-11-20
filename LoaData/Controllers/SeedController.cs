@@ -34,7 +34,7 @@ public class SeedController : ControllerBase
     [HttpGet("Cities")]
     public async Task<IActionResult> ImportCities()
     {
-        Dictionary<string, Country> Countries = await _context.Countries.AsNoTracking()
+        Dictionary<string, Country> countries = await _context.Countries.AsNoTracking()
             .ToDictionaryAsync(c => c.Name);
 
         CsvConfiguration config = new(CultureInfo.InvariantCulture)
@@ -49,7 +49,7 @@ public class SeedController : ControllerBase
             IEnumerable<WorldCitiesCsv>? records = csv.GetRecords<WorldCitiesCsv>();
             foreach (WorldCitiesCsv record in records)
             {
-                if (!Countries.ContainsKey(record.country))
+                if (!countries.ContainsKey(record.country))
                 {
                     Console.WriteLine($"Not found country for {record.city}");
                     return NotFound(record);
@@ -67,14 +67,13 @@ public class SeedController : ControllerBase
                     Lattitude = record.lat,
                     Longitude = record.lng,
                     Population = (int) record.population.Value,
-                    CountryId = Countries[record.country].Id
+                    CountryId = countries[record.country].Id
                 };
                 _context.Cities.Add(city);
                 cityCount++;
             }
             await _context.SaveChangesAsync();
         }
-
         return new JsonResult(cityCount);
     }
 

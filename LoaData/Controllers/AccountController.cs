@@ -1,5 +1,4 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WorldCitiesApi.Dtos;
@@ -36,8 +35,5 @@ public class AccountController : ControllerBase {
             Message = "Login successful",
             Token = jwt
         });
-
     }
-
-
 }
