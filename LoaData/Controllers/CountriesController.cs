@@ -20,10 +20,7 @@ public class CountriesController : ControllerBase
     // GET: api/Countries
     [Authorize]
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Country>>> GetCountries()
-    {
-        return await _context.Countries.ToListAsync();
-    }
+    public async Task<ActionResult<IEnumerable<Country>>> GetCountries() => await _context.Countries.OrderBy(c => c.Name).ToListAsync();
 
     // GET: api/Countries/5
     [HttpGet("{id:int}")]
@@ -35,7 +32,7 @@ public class CountriesController : ControllerBase
                 c.Id,
                 c.Name,
                 c.Iso2,
-                c.Cities
+                c.Iso3
             })
             .SingleOrDefaultAsync(c => c.Id == id);
 
@@ -56,6 +53,23 @@ public class CountriesController : ControllerBase
             }).SingleOrDefaultAsync();
         
         return countryDTO == null ? NotFound() : Ok(countryDTO);
+    }
+
+    [HttpGet("Cities/{id:int}")]
+    public async Task<ActionResult<CityDto>> GetCities(int id)
+    {
+        List<CityDto> cityDto = await _context.Cities
+            .Where(c => c.CountryId == id)
+            .Select(c => new CityDto
+            {
+                Id = c.Id,
+                Name = c.Name,
+                Population = c.Population,
+                CountryId = c.CountryId,
+                CountryName = c.Country.Name
+            }).ToListAsync();
+        
+        return Ok(cityDto);
     }
 
     // PUT: api/Countries/5

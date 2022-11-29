@@ -24,5 +24,5 @@ public sealed class City
 
     [ForeignKey("CountryId")]
     [InverseProperty("Cities")]
-    public Country Country { get; set; } = new();
+    public Country? Country { get; set; }
 }

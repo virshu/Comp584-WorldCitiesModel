@@ -76,6 +76,7 @@ builder.Services.AddAuthentication(options => {
     };
 });
 builder.Services.AddScoped<JwtHandler>();
+builder.Services.AddSignalR();
 
 WebApplication app = builder.Build();
 
@@ -93,5 +94,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapHub<HealthCheckHub>("/api/health-hub");
 
 app.Run();
